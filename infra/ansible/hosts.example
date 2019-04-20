@@ -1,0 +1,6 @@
+
+[app]
+appserver ansible_ssh_host= <app_instance_external_ip>
+
+[db]
+dbserver ansible_ssh_host= <db_instance_external_ip>

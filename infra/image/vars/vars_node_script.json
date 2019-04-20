@@ -1,0 +1,5 @@
+{
+    "id" : "otus-devops-gin",
+    "image" : "ubuntu-1804-bionic-v20181029",
+    "type" : "n1-standard-1"
+}

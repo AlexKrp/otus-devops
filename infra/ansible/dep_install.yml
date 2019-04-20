@@ -1,0 +1,12 @@
+#Setup python 2 for ansible dependency
+- name: "Dependency provisioning"
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: install python2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+    - name: Ensure python-apt is installed
+      apt: name=python-apt state=present
+  

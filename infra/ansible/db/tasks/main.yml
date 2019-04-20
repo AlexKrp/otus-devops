@@ -1,0 +1,23 @@
+---
+# tasks file for db
+
+
+- name: install python2
+  become: yes
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Ensure python-apt is installed
+  become: yes
+  apt: name=python-apt state=present
+
+- name: Update the repository cache and update package "mongodb"
+  become: yes
+  apt: name=mongodb state=present
+    
+- name: Change mongo config
+  become: yes
+  template:
+    src: mongod.conf.j2
+    dest: /etc/mongod.conf
+    mode: 0644
+  notify: restart mongod

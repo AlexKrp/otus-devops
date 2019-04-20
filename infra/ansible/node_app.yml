@@ -1,0 +1,85 @@
+
+# #Setup python 2 for ansible dependency
+# - name: "Dependency provisioning"
+#   hosts: all
+#   become: yes
+#   gather_facts: no
+#   tasks:
+#     - name: install python2
+#       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+# Setup and configure mongodb for node app
+- name: "Node App: Install mongodb"
+  hosts: db
+  gather_facts: no
+  become: yes
+  vars:
+    mongo_bind_ip: 0.0.0.0
+
+  tasks:
+    - name: Update the repository cache and update package "mongodb"
+      apt: name=mongodb state=present
+    
+    - name: Change mongo config
+      template:
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+      notify: restart mongod
+
+  handlers:
+    - name: restart mongod
+      become: true
+      service: name=mongod state=restarted
+
+
+# Setup and configure node things for my app
+- name: "Node App: Configure app environment"
+  hosts: app
+  gather_facts: no
+  become: yes
+  
+
+  tasks:
+    - name: add apt key for nodesource
+      apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+
+    - name: add repo for nodesource
+      apt_repository:
+            repo: 'deb https://deb.nodesource.com/node_10.x bionic main'
+            update_cache: yes
+
+    - name: install nodejs
+      apt: name=nodejs state=present
+      
+#Deploy the app with dependencies
+- name: "Node App: Deploy App"
+  hosts: app
+  gather_facts: no
+  become: yes
+  
+  tasks:
+    - name: Clone App repo from GitHub
+      git: repo=https://github.com/AlexKrp/NodeLearnApp1.git dest=/var/www/nodeapp
+
+    - name: Install App 
+      npm: path=/var/www/nodeapp state=present
+
+#Copy and enable app service
+- name: "Node App: Deploy App"
+  hosts: app
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Copy service
+      copy: src=/files/node.service dest=/etc/systemd/system/node-app.service
+
+    - name: Enable service
+      service: name=node-app enabled=yes
+      notify: restart node
+
+  handlers:
+    - name: restart node
+      become: true
+      service: name=node-app state=restarted

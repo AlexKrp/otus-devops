@@ -1,0 +1,26 @@
+{
+    "builders": [
+        {
+        "type": "googlecompute",
+        "project_id": "{{user `id`}}",
+        "image_name": "nodeapp-base-{{timestamp}}",
+        "source_image": "{{user `image`}}",
+        "zone": "europe-west1-b",
+        "ssh_username": "appuser",
+        "machine_type": "{{user `type`}}",
+        "startup_script_file" : "scripts/deploy_app.sh"
+        }
+    ],
+    "provisioners": [
+        {
+        "type": "shell",
+        "script": "scripts/deploy_node.sh",
+        "execute_command": "sudo {{.Path}}"
+        },
+        {
+        "type": "shell",
+        "script": "scripts/deploy_mongodb.sh",
+        "execute_command": "sudo {{.Path}}"
+        }
+    ]
+}

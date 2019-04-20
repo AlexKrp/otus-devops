@@ -1,0 +1,45 @@
+---
+# tasks file for app
+
+- name: install python2
+  become: yes
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Ensure python-apt is installed
+  become: yes
+  apt: name=python-apt state=present
+
+- name: add apt key for nodesource
+  become: yes
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+
+- name: add repo for nodesource
+  become: yes
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_10.x bionic main'
+    update_cache: yes
+
+- name: install nodejs
+  apt: name=nodejs state=present
+
+
+- name: Clone App repo from GitHub
+  git: repo=https://github.com/AlexKrp/NodeLearnApp1.git dest=/var/www/nodeapp
+
+- name: Copy DB config
+  template:
+    src: database.js.j2
+    dest: /var/www/nodeapp/config/database.js
+    mode: 0644
+
+- name: Install App
+  npm: path=/var/www/nodeapp state=present
+  
+- name: Copy node service
+  copy:
+    src: node.service
+    dest: /etc/systemd/system/node-app.service
+
+- name: Enable service
+  service: name=node-app enabled=yes
+  notify: restart node
