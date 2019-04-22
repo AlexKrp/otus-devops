@@ -21,6 +21,16 @@ Try it out:
 ```
 docker-machine ls
 ```
-sudo docker run --name nodeapp -p 80:80 -a stdin -a stdout -d --network=host nodeapp:latest /bin/bash
-
+Link docker commands to docker-host:
+```
+eval $(docker-machine env docker-host)
+```
+Build docker image (Must be in Dockerfile dir):
+```
+docker build -t nodeapp:latest .
+```
+Run you app (add firewall rule in GoogleCloud):
+```
+sudo docker run --name nodeapp -d --network=host nodeapp:latest 
+```
 

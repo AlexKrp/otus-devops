@@ -6,12 +6,10 @@ RUN git clone https://github.com/AlexKrp/NodeLearnApp1.git
 
 COPY mongod.conf /etc/mongod.conf
 COPY database.js /NodeLearnApp1/config/database.js
-#COPY start.sh /start.sh
+COPY start.sh /start.sh
 
 RUN cd /NodeLearnApp1 && npm install
 RUN mkdir -p /data/db
-#RUN chmod 0777 /start.sh
+RUN chmod 0777 /start.sh
 
-EXPOSE 8081
-#CMD ["/start.sh"]
-#CMD ["npm","start"]
+CMD ["/bin/bash","/start.sh"]
