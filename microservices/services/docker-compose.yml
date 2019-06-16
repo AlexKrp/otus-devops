@@ -1,16 +1,16 @@
-version: ‘3.3’
+version: ‘3’
 services:
   post_db:
-    image: mongo:3.2
+    image: mongo:${MONGOVER}
     volumes:
       - post_db:/data/db
     networks:
       - nodeapp
   nodeapp:
     build: ./app
-    image: ${USERNAME}/nodeapp:1.0
+    image: ${USERNAME}/nodeapp:${IMAGETAG}
     ports:
-      - 8081:8081/tcp
+      - ${APPPORT}:${APPPORT}/tcp
     networks:
       - nodeapp
 volumes:
