@@ -1,0 +1,38 @@
+version: ‘3’
+services:
+  post_db:
+    image: mongo:${MONGOVER}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - nodeapp
+  nodeapp:
+    build: ./app
+    image: ${USERNAME}/nodeapp:${IMAGETAG}
+    ports:
+      - ${APPPORT}:${APPPORT}/tcp
+    networks:
+      - nodeapp
+  prometheus:
+    build: ../prometheus
+    image: ${USER_NAME}/prometheus
+    ports:
+      - '9090:9090'
+    networks:
+      - nodeapp
+  node-exporter:
+    image: prom/node-exporter:v0.15.0
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+
+volumes:
+  post_db:
+networks:
+  nodeapp:
