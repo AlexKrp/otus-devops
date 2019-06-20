@@ -1,4 +1,4 @@
-version: ‘3’
+version: '3'
 services:
   post_db:
     image: mongo:${MONGOVER}
@@ -27,10 +27,10 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'\
+    command: 
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points=\"^/(sys|proc|dev|host|etc)($$|/)\""
     networks:
       - nodeapp
   mongo-exporter:
