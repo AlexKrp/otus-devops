@@ -14,7 +14,7 @@ services:
     networks:
       - nodeapp
   prometheus:
-    build: ../prometheus
+    build: ./prometheus
     image: ${USER_NAME}/prometheus
     ports:
       - '9090:9090'
@@ -30,7 +30,14 @@ services:
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'\
+    networks:
+      - nodeapp
+  mongo-exporter:
+    build: ./mongodb_exporter
+    image: mongodb_exporter
+    networks:
+      - nodeapp
 
 volumes:
   post_db:
