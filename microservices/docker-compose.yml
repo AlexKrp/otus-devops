@@ -31,11 +31,18 @@ services:
       - "--path.procfs=/host/proc"
       - "--path.sysfs=/host/sys"
       - "--collector.filesystem.ignored-mount-points=\"^/(sys|proc|dev|host|etc)($$|/)\""
+    ports:
+      #For Testing
+      - '9100:9100'
     networks:
       - nodeapp
   mongo-exporter:
     build: ./mongo_exporter
     image: mongo_exporter
+    ports:
+      #For Testing 
+      - '9001:9001'
+      - '9216:9216'
     networks:
       - nodeapp
 
