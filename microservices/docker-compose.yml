@@ -5,7 +5,9 @@ services:
     volumes:
       - post_db:/data/db
     networks:
-      - nodeapp
+      nodeapp:
+        aliases:
+        - post_db
   nodeapp:
     build: ./app
     image: ${USERNAME}/nodeapp:${IMAGETAG}
@@ -37,7 +39,9 @@ services:
     build: ./mongo_exporter
     image: mongo_exporter
     networks:
-      - nodeapp
+      nodeapp:
+       aliases:
+        - mongo_exporter
 
 volumes:
   post_db:
