@@ -19,7 +19,7 @@ spec:
         component: app
     spec:
       containers:
-      - image: gin/nodeapp
+      - image: anisk/nodeapp
         name: nodeapp
         env:
         - name: COMMENT_DATABASE_HOST
