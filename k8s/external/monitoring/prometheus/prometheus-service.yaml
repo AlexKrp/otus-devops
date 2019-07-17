@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  annotations: 
+    prometheus.io/scrape: "true"
+ #   cloud.google.com/load-balancer-type: "Internal"
+  name: prometheus-service
+  namespace: monitoring
+  labels:
+    name: prometheus
+spec:
+  selector: 
+    app: prometheus-server 
+  type: NodePort
+  ports:
+    - nodePort: 32090
+      name: http
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
+#  type: LoadBalancer
