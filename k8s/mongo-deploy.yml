@@ -26,6 +26,15 @@ spec:
         volumeMounts:
         - name: db-pv
           mountPath: /data/db
+      - image: anisk/mongo-exporter:1.0
+        name: mongo-exporter
+        # env:
+        # - name: MONGODB_URL 
+        #   value: 'mongodb://localhost:27017'
+        # - name: ENV
+        #   valueFrom:
+        #     fieldRef:
+        #       fieldPath: metadata.namespace
       volumes:
       - name: db-pv
         persistentVolumeClaim:

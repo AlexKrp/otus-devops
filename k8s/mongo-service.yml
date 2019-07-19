@@ -8,9 +8,14 @@ metadata:
     component: mongo
 spec:
   ports:
-  - port: 27017
+  - name: dbport
+    port: 27017
     protocol: TCP
     targetPort: 27017
+  - name: monitorport
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
   selector:
     app: nodeapp
     component: mongo

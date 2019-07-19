@@ -6,7 +6,6 @@ COPY . /go/src/github.com/dcu/mongodb_exporter
 RUN cd /go/src/github.com/dcu/mongodb_exporter && make release
 
 FROM       alpine:3.4
-MAINTAINER David Cuadrado <dacuad@facebook.com>
 EXPOSE     9001
 
 #ENV for connect to MongoDB

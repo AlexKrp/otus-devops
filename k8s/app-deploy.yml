@@ -19,7 +19,7 @@ spec:
         component: app
     spec:
       containers:
-      - image: anisk/nodeapp:1.0
+      - image: anisk/nodeapp:1.1
         name: nodeapp
         env:
         - name: DATABASE_HOST
