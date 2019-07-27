@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: reddit-mongo-disk
+  name: mongo-pv
 spec:
   capacity:
     storage: 25Gi
@@ -11,4 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   gcePersistentDisk:
     fsType: "ext4" 
-    pdName: "reddit-mongo-disk"
+    pdName: "mongo-pv"
+
+
+

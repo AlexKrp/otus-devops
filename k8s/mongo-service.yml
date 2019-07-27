@@ -19,4 +19,4 @@ spec:
   selector:
     app: nodeapp
     component: mongo
-    
+

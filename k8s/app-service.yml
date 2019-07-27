@@ -8,7 +8,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8081
+  - nodePort: 32081
+    port: 8081
     protocol: TCP
     targetPort: 8081
   selector:
